@@ -1,0 +1,4 @@
+#!/bin/bash
+source /etc/profile
+ulimit -n 1000000
+/opt/scan/GBWHttpLog/bin/GBWHttpLog ldapServer --conf /opt/scan/GBWHttpLog/conf/LDAPServer.json 1>/dev/null 2>&1 &

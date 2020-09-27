@@ -11,6 +11,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,8 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 
 public class GBWHttpLogServerHandler extends SimpleChannelInboundHandler<Object> {
+
+    private static final Logger log = LoggerFactory.getLogger(GBWHttpLogServerHandler.class);
 
     private final GBWHttpLogServerConfig config;
     private GBWHttpLogStore store;
@@ -31,7 +35,6 @@ public class GBWHttpLogServerHandler extends SimpleChannelInboundHandler<Object>
 
         if(store == null)
             throw new ExceptionInInitializerError("Connot create http log store:"+config.getStoreType());
-
 
     }
 
@@ -52,6 +55,8 @@ public class GBWHttpLogServerHandler extends SimpleChannelInboundHandler<Object>
             }
 
             String uri = request.uri();
+
+            log.info("LogServer Request uri:"+uri);
             if(uri.startsWith(config.getStoreUri())){
 
                 processStore(ctx,uri);
@@ -110,17 +115,20 @@ public class GBWHttpLogServerHandler extends SimpleChannelInboundHandler<Object>
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri);
         Map<String, List<String>> params = queryStringDecoder.parameters();
 
-        if(!params.containsKey("id")||!params.containsKey("json")) {
+        if(!params.containsKey("content")) {
             sendResponse(ctx, GsonUtils.toJson(new GBWHttpLogProcessResult("store", -1, "Error:Invalid store uri", "{}"), false), NOT_FOUND);
 
             return;
         }
 
         try {
-            String id = getValue(params,"id");
-            String json = Base64Utils.decode(getValue(params,"json"));
-            store.store(id,json);
-            sendResponse(ctx, GsonUtils.toJson(new GBWHttpLogProcessResult("store",0,"OK",String.format("{\"id:%s\"}",id)),false),OK);
+
+            //String id = getValue(params,"id");
+            String content = Base64Utils.decode(getValue(params,"content"));
+            GBWHttpLogRequest logRequest = GsonUtils.loadConfigFromJson(content,GBWHttpLogRequest.class);
+
+            store.store(logRequest.getId(),logRequest.getContent());
+            sendResponse(ctx, GsonUtils.toJson(new GBWHttpLogProcessResult("store",0,"OK",String.format("{\"id:%s\"}",logRequest.getId())),false),OK);
 
         }catch (Exception e){
 

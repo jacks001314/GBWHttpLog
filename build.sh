@@ -17,6 +17,7 @@ cp $GBWHttpLog_DIST build/
 cd build
 tar -zxf $GBWHttpLog_TAR
 cp ../$GBWHttpLog_JAR $GBWHttpLog_SRC/lib
+cp -r ../weblogic $GBWHttpLog_SRC/
 cp ../install.sh ./
 chmod a+x *.sh
 rm -fr $GBWHttpLog_TAR

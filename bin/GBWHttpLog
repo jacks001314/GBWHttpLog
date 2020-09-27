@@ -35,8 +35,15 @@ CLASSP=/opt/scan/GBWHttpLog/conf:/opt/scan/GBWHttpLog/lib/*
 # figure out which class to run
 if [ "$COMMAND" = "fileServer" ] ;then 
     CLASS=com.gbw.httplog.server.file.GBWHttpLogFileServer
+
 elif [ "$COMMAND" = "logServer" ] ; then
     CLASS=com.gbw.httplog.server.log.GBWHttpLogServer
+
+elif [ "$COMMAND" = "weblogicServer" ] ; then
+    CLASS=com.gbw.httplog.server.weblogic.GBWHttpLogWeblogicServer
+
+elif [ "$COMMAND" = "ldapServer" ] ; then
+    CLASS=com.gbw.httplog.server.ldap.GBWLDAPServer
 
 else
     CLASS=$COMMAND
