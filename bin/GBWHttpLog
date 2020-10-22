@@ -45,6 +45,9 @@ elif [ "$COMMAND" = "weblogicServer" ] ; then
 elif [ "$COMMAND" = "ldapServer" ] ; then
     CLASS=com.gbw.httplog.server.ldap.GBWLDAPServer
 
+elif [ "$COMMAND" = "dnslogServer" ] ; then
+    CLASS=com.gbw.httplog.server.dnslog.GBWDNSLogServer
+
 else
     CLASS=$COMMAND
 fi

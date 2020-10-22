@@ -1,0 +1,16 @@
+{
+    "domain":"dnslog.gbw3bao.com",
+    "defaultResponseIP":"127.0.0.1",
+    "bindMap":{"aaa.dnslog.gbw3bao.com":"127.0.0.1"},
+    "redisConfig":{
+            "ip":"127.0.0.1",
+            "port":6379,
+            "auth":"Shage070338",
+            "database":0,
+            "timeout":2000,
+            "maxTotal":1000,
+            "maxIdle":100,
+            "maxWaitMs":1000,
+            "ping":true
+    }
+}

@@ -57,7 +57,7 @@ public class GBWHttpLogServer {
         opts.addOption("help", false, "Print usage");
 
         CommandLine cliParser = new GnuParser().parse(opts, args);
-        if(cliParser.hasOption("help")||!opts.hasOption("conf")){
+        if(cliParser.hasOption("help")||!cliParser.hasOption("conf")){
 
             new HelpFormatter().printHelp("GBWHttpLogServer", opts);
             System.exit(0);

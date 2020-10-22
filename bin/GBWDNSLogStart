@@ -1,0 +1,3 @@
+#!/bin/bash
+source /etc/profile
+/opt/scan/GBWHttpLog/bin/GBWHttpLog dnslogServer --conf /opt/scan/GBWHttpLog/conf/DNSLogServer.json 1>/dev/null 2>&1 &
